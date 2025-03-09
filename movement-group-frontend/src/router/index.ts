@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import UserList from '../views/UserList.vue';
-import UserDetails from '../views/UserDetails.vue';
-import AddUser from '../views/AddUser.vue';
-import EditUser from '../views/EditUser.vue';
+import UserList from '../views/users/UserList.vue';
+import UserDetails from '../views/users/UserDetails.vue';
+import AddUser from '../views/users/AddUser.vue';
+import EditUser from '../views/users/EditUser.vue';
 
 const routes = [
     { path: '/', component: UserList },

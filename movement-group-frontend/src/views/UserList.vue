@@ -18,9 +18,12 @@ onMounted(() => {
     </router-link>
     <ul>
       <li v-for="user in store.users" :key="user._id">
-        <router-link :to="`/user/${user._id}`"
-          >{{ user.first_name }} {{ user.last_name }}</router-link
-        >
+        <router-link :to="`/user/${user._id}`">
+          {{ user.first_name }} {{ user.last_name }}
+        </router-link>
+        <router-link :to="`/edit-user/${user._id}`">
+          <button>Edit</button>
+        </router-link>
       </li>
     </ul>
   </div>

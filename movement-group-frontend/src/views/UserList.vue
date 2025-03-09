@@ -8,6 +8,14 @@ const store = useUserStore();
 onMounted(() => {
   store.fetchUsers(1);
 });
+
+// Function to delete user
+const deleteUser = async (userId: string) => {
+  if (confirm("Are you sure you want to delete this user?")) {
+    await store.removeUser(userId);
+    alert("User deleted successfully!");
+  }
+};
 </script>
 
 <template>
@@ -24,6 +32,12 @@ onMounted(() => {
         <router-link :to="`/edit-user/${user._id}`">
           <button>Edit</button>
         </router-link>
+        <button
+          @click="deleteUser(user._id)"
+          style="background: red; color: white"
+        >
+          Delete
+        </button>
       </li>
     </ul>
   </div>

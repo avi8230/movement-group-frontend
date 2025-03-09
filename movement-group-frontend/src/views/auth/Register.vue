@@ -22,7 +22,7 @@ const registerUser = async () => {
       password: password.value,
     });
     alert("Registration successful!");
-    router.push("/login"); // Redirect to login page
+    router.push("/"); // Redirect to home page
   } catch (error) {
     errorMessage.value = "Registration failed. Please try again.";
     console.error("Error registering:", error);

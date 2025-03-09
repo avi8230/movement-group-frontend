@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { useUserStore } from '../store/userStore';
+import { onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { useUserStore } from "../store/userStore";
 
 const store = useUserStore();
 const route = useRoute();
@@ -15,8 +15,11 @@ onMounted(() => {
 
 <template>
   <div v-if="store.userDetails">
-    <h2>{{ store.userDetails.first_name }} {{ store.userDetails.last_name }}</h2>
+    <h2>
+      {{ store.userDetails.first_name }} {{ store.userDetails.last_name }}
+    </h2>
     <p>Email: {{ store.userDetails.email }}</p>
     <button @click="store.removeUser(userId)">Delete User</button>
   </div>
 </template>
+ 

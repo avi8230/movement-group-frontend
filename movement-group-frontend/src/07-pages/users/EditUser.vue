@@ -36,7 +36,7 @@ const updateUser = async () => {
     avatar: "",
   };
 
-  await store.editUser(userId, updatedUser);
+  await store.editUser(updatedUser);
   alert("User updated successfully!");
   router.push("/");
 };

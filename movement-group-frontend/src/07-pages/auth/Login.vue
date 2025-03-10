@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { login } from "../../03-services/userService";
+import { login } from "../../03-services/authService";
 import { useRouter } from "vue-router";
 import { Credentials } from "../../02-models/Credentials";
 

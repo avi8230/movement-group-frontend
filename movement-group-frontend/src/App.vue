@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { logout } from "./03-services/userService";
+import { logout } from "./03-services/authService";
 import { useRouter } from "vue-router";
 
 const router = useRouter();

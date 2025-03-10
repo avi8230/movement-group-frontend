@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', {
     actions: {
         async fetchUsers(page: number) {
             try {
-                const { data } = await UserService.getUsers(page);
+                const data = await UserService.getUsers(page);
                 this.users = data.users;
             } catch (error) {
                 console.error('Error fetching users', error);
@@ -19,7 +19,7 @@ export const useUserStore = defineStore('user', {
 
         async fetchUserDetails(id: string) {
             try {
-                const { data } = await UserService.getUserById(id);
+                const data = await UserService.getUserById(id);
                 this.userDetails = data;
             } catch (error) {
                 console.error('Error fetching user details', error);
@@ -28,7 +28,6 @@ export const useUserStore = defineStore('user', {
 
         async addUser(user: User) {
             try {
-                user = { ...user, _id: '' };
                 await UserService.createUser(user);
                 await this.fetchUsers(1);
             } catch (error) {
@@ -38,9 +37,9 @@ export const useUserStore = defineStore('user', {
 
         async editUser(user: User) {
             try {
-                const { _id, ...userData } = user;
-                await UserService.updateUser(_id, userData);
-                await this.fetchUserDetails(_id);
+                await UserService.updateUser(user);
+                await this.fetchUserDetails(user._id);
+                await this.fetchUsers(1);
             } catch (error) {
                 console.error('Error updating user', error);
             }

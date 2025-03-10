@@ -4,16 +4,32 @@ import type { User } from "../02-models/User";
 const API_URL_USER = `${import.meta.env.VITE_API_URL}/user`;
 
 const UserService = {
-    getUsers: (page: number) => axios.get<any>(`${API_URL_USER}/getUsers/${page}`),
+    getUsers: async (page: number): Promise<
+        { page: number, totalPages: number, totalUsers: number, users: User[] }
+    > => {
+        const response = await axios.get(`${API_URL_USER}/getUsers/${page}`);
+        return response.data;
+    },
 
-    getUserById: (id: string) => axios.get<User>(`${API_URL_USER}/getUser/${id}`),
+    getUserById: async (_id: string): Promise<User> => {
+        const response = await axios.get(`${API_URL_USER}/getUser/${_id}`);
+        return response.data;
+    },
 
-    createUser: (data: Omit<User, "_id">) => axios.post<User>(`${API_URL_USER}/createUser`, data),
+    createUser: async (data: User): Promise<User> => {
+        const response = await axios.post(`${API_URL_USER}/createUser`, data);
+        return response.data;
+    },
 
-    updateUser: (id: string, data: Partial<Omit<User, "_id">>) =>
-        axios.put<User>(`${API_URL_USER}/updateUser/${id}`, data),
+    updateUser: async (data: User): Promise<User> => {
+        const response = await axios.put(`${API_URL_USER}/updateUser/${data._id}`, data);
+        return response.data;
+    },
 
-    deleteUser: (id: string) => axios.delete<{ message: string }>(`${API_URL_USER}/deleteUser/${id}`)
+    deleteUser: async (_id: string): Promise<{ message: string }> => {
+        const response = await axios.delete(`${API_URL_USER}/deleteUser/${_id}`);
+        return response.data;
+    }
 };
 
 export default UserService;

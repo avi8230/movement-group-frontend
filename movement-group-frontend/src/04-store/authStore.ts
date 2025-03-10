@@ -12,7 +12,7 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         async register(userData: User) {
             try {
-                const { data } = await AuthService.register(userData);
+                const data = await AuthService.register(userData);
                 this.user = data;
                 this.isAuthenticated = true;
             } catch (error) {
@@ -21,8 +21,8 @@ export const useAuthStore = defineStore('auth', {
         },
         async login(credentials: Credentials) {
             try {
-                const { data } = await AuthService.login(credentials);
-                this.user = data.user;
+                const data = await AuthService.login(credentials);
+                this.user = data;
                 this.isAuthenticated = true;
             } catch (error) {
                 console.error('Error logging in', error);

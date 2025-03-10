@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { login } from "../../03-services/authService";
+import { useAuthStore } from '../../04-store/authStore';
 import { useRouter } from "vue-router";
-import { Credentials } from "../../02-models/Credentials";
+import type { Credentials } from "../../02-models/Credentials";
 
 const router = useRouter();
+const authStore = useAuthStore();
+
 const email = ref<string>("");
 const password = ref<string>("");
 const errorMessage = ref<string>("");
@@ -16,7 +18,7 @@ const loginUser = async () => {
       email: email.value,
       password: password.value,
     };
-    await login(credentials);
+    await authStore.login(credentials);
     alert("Login successful!");
     router.push("/"); // Redirect to home page
   } catch (error) {

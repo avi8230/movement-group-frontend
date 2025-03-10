@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { register } from "../../03-services/authService";
+import { useAuthStore } from '../../04-store/authStore';
 import { useRouter } from "vue-router";
-import { User } from "../../02-models/User";
+import type { User } from "../../02-models/User";
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 // Form fields
 const firstName = ref<string>("");
@@ -25,7 +26,7 @@ const registerUser = async () => {
       password: password.value, // Add the password that does not exist in the User interface
     };
 
-    await register(newUser);
+    await authStore.register(newUser);
     alert("Registration successful!");
     router.push("/"); // Redirect to home page
   } catch (error) {

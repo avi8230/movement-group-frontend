@@ -1,6 +1,6 @@
 import axios from "./api";
-import type { Credentials } from "../02-models/Credentials";
-import type { User } from "../02-models/User";
+import type { Credentials } from "../02-types/Credentials";
+import type { User } from "../02-types/User";
 
 const API_URL_AUTH = `${import.meta.env.VITE_API_URL}/auth`;
 

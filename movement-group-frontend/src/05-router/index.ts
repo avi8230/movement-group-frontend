@@ -6,7 +6,7 @@ import AddUser from '../07-pages/users/AddUser.vue';
 import EditUser from '../07-pages/users/EditUser.vue';
 // auth components
 import Register from '../07-pages/auth/Register.vue';
-import Login from '../07-pages/auth/Login.vue';
+import Login from '../07-pages/auth/Login.vue'; // Ensure this path is correct and the file exists
 
 const routes = [
     // user routes

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import UserService from '../03-services/userService';
-import type { User } from '../02-models/User';
+import type { User } from '../02-types/User';
 
 export const useUserStore = defineStore('user', {
     state: () => ({
@@ -40,7 +40,7 @@ export const useUserStore = defineStore('user', {
 
         async editUser(user: User): Promise<User> {
             try {
-                const updateUser: User = await UserService.updateUser(user);
+                const updateUser: U = await UserService.updateUser(user);
                 this.userDetails = updateUser;
                 this.users = this.users.map(u => u._id === updateUser._id ? updateUser : u);
                 return updateUser;

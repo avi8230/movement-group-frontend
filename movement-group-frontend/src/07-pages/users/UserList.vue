@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onMounted, computed } from "vue";
 import { useUserStore } from "../../04-store/userStore";
-import { User } from "../../02-models/User";
+import type { User } from "../../02-models/User";
 
 const store = useUserStore();
 
-// Fetch users when component is mounted
+// Fetch users page 1 when component is mounted
 onMounted(() => {
   store.fetchUsers(1);
 });

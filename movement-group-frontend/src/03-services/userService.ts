@@ -1,5 +1,5 @@
 import axios from "./api";
-import type { User } from "../02-models/User";
+import type { User } from "../02-types/User";
 
 const API_URL_USER = `${import.meta.env.VITE_API_URL}/user`;
 

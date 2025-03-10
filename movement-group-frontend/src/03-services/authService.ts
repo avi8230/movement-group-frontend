@@ -3,7 +3,7 @@ import type { Credentials } from "../02-models/Credentials";
 import type { User } from "../02-models/User";
 
 const API_URL_AUTH = `${import.meta.env.VITE_API_URL}/auth`;
-console.log(API_URL_AUTH);
+
 export const register = (data: Omit<User, "_id">) =>
     axios.post<User>(`${API_URL_AUTH}/register`, data);
 

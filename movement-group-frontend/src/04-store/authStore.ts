@@ -10,32 +10,32 @@ export const useAuthStore = defineStore('auth', {
         isAuthenticated: false
     }),
     actions: {
-        async register(user: User) {
+        async register(user: User): Promise<void> {
             try {
-                const data = await AuthService.register(user);
+                const data: User = await AuthService.register(user);
                 this.user = data;
                 this.isAuthenticated = true;
             } catch (error) {
-                throw `Error registering user: ${error}`;
+                throw new Error(`Error registering user: ${error}`);
             }
         },
-        async login(credentials: Credentials) {
+        async login(credentials: Credentials): Promise<void> {
             try {
-                const data = await AuthService.login(credentials);
+                const data: User = await AuthService.login(credentials);
                 this.user = data;
                 this.isAuthenticated = true;
             } catch (error) {
-                throw `Error logging in: ${error}`;
+                throw new Error(`Error logging in: ${error}`);
             }
         },
-        async logout() {
+        async logout(): Promise<void> {
             try {
                 await AuthService.logout();
                 this.user = null;
                 this.isAuthenticated = false;
                 useUserStore().clear();
             } catch (error) {
-                throw `Error logging out: ${error}`;
+                throw new Error(`Error logging out: ${error}`);
             }
         }
     }

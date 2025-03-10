@@ -8,53 +8,57 @@ export const useUserStore = defineStore('user', {
         userDetails: null as User | null
     }),
     actions: {
-        async fetchUsers(page: number) {
+        async fetchUsers(page: number): Promise<any> {
             try {
-                const data = await UserService.getUsers(page);
+                const data: any = await UserService.getUsers(page);
                 this.users = data.users;
+                return data;
             } catch (error) {
-                throw `Error fetching users: ${error}`;
+                throw new Error(`Error fetching users: ${error}`);
             }
         },
 
-        async fetchUserDetails(id: string) {
+        async fetchUserDetails(id: string): Promise<User> {
             try {
-                const data = await UserService.getUserById(id);
+                const data: User = await UserService.getUserById(id);
                 this.userDetails = data;
+                return data;
             } catch (error) {
-                throw `Error fetching user details: ${error}`;
+                throw new Error(`Error fetching user details: ${error}`);
             }
         },
 
-        async addUser(user: User) {
+        async addUser(user: User): Promise<User> {
             try {
-                const newUser = await UserService.createUser(user);
+                const newUser: User = await UserService.createUser(user);
                 this.users.push(newUser);
+                return newUser;
             } catch (error) {
-                throw `Error adding user: ${error}`;
+                throw new Error(`Error adding user: ${error}`);
             }
         },
 
-        async editUser(user: User) {
+        async editUser(user: User): Promise<User> {
             try {
-                const updateUser = await UserService.updateUser(user);
+                const updateUser: User = await UserService.updateUser(user);
                 this.userDetails = updateUser;
                 this.users = this.users.map(u => u._id === updateUser._id ? updateUser : u);
+                return updateUser;
             } catch (error) {
-                throw `Error editing user: ${error}`;
+                throw new Error(`Error editing user: ${error}`);
             }
         },
 
-        async removeUser(id: string) {
+        async removeUser(id: string): Promise<void> {
             try {
                 await UserService.deleteUser(id);
                 this.users = this.users.filter(u => u._id !== id);
             } catch (error) {
-                throw `Error deleting user: ${error}`;
+                throw new Error(`Error deleting user: ${error}`);
             }
         },
 
-        clear() {
+        clear(): void {
             this.users = [];
             this.userDetails = null;
         }

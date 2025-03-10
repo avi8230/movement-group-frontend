@@ -26,7 +26,7 @@ const UserService = {
         return response.data;
     },
 
-    deleteUser: async (_id: string): Promise<{ message: string }> => {
+    deleteUser: async (_id: string): Promise<void> => {
         const response = await axios.delete(`${API_URL_USER}/deleteUser/${_id}`);
         return response.data;
     }

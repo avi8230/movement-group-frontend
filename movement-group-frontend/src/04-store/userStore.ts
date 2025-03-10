@@ -13,7 +13,7 @@ export const useUserStore = defineStore('user', {
                 const data = await UserService.getUsers(page);
                 this.users = data.users;
             } catch (error) {
-                console.error('Error fetching users', error);
+                throw `Error fetching users: ${error}`;
             }
         },
 
@@ -22,7 +22,7 @@ export const useUserStore = defineStore('user', {
                 const data = await UserService.getUserById(id);
                 this.userDetails = data;
             } catch (error) {
-                console.error('Error fetching user details', error);
+                throw `Error fetching user details: ${error}`;
             }
         },
 
@@ -31,7 +31,7 @@ export const useUserStore = defineStore('user', {
                 await UserService.createUser(user);
                 await this.fetchUsers(1);
             } catch (error) {
-                console.error('Error creating user', error);
+                throw `Error adding user: ${error}`;
             }
         },
 
@@ -41,7 +41,7 @@ export const useUserStore = defineStore('user', {
                 await this.fetchUserDetails(user._id);
                 await this.fetchUsers(1);
             } catch (error) {
-                console.error('Error updating user', error);
+                throw `Error editing user: ${error}`;
             }
         },
 
@@ -50,7 +50,7 @@ export const useUserStore = defineStore('user', {
                 await UserService.deleteUser(id);
                 await this.fetchUsers(1);
             } catch (error) {
-                console.error('Error deleting user', error);
+                throw `Error deleting user: ${error}`;
             }
         },
 

@@ -16,7 +16,7 @@ export const useAuthStore = defineStore('auth', {
                 this.user = data;
                 this.isAuthenticated = true;
             } catch (error) {
-                console.error('Error registering user', error);
+                throw `Error registering user: ${error}`;
             }
         },
         async login(credentials: Credentials) {
@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth', {
                 this.user = data;
                 this.isAuthenticated = true;
             } catch (error) {
-                console.error('Error logging in', error);
+                throw `Error logging in: ${error}`;
             }
         },
         async logout() {
@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', {
                 this.isAuthenticated = false;
                 useUserStore().clear();
             } catch (error) {
-                console.error('Error logging out', error);
+                throw `Error logging out: ${error}`;
             }
         }
     }

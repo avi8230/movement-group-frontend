@@ -28,8 +28,8 @@ export const useUserStore = defineStore('user', {
 
         async addUser(user: User) {
             try {
-                await UserService.createUser(user);
-                await this.fetchUsers(1);
+                const newUser = await UserService.createUser(user);
+                this.users.push(newUser);
             } catch (error) {
                 throw `Error adding user: ${error}`;
             }
@@ -37,9 +37,9 @@ export const useUserStore = defineStore('user', {
 
         async editUser(user: User) {
             try {
-                await UserService.updateUser(user);
-                await this.fetchUserDetails(user._id);
-                await this.fetchUsers(1);
+                const updateUser = await UserService.updateUser(user);
+                this.userDetails = updateUser;
+                this.users = this.users.map(u => u._id === updateUser._id ? updateUser : u);
             } catch (error) {
                 throw `Error editing user: ${error}`;
             }
@@ -48,7 +48,7 @@ export const useUserStore = defineStore('user', {
         async removeUser(id: string) {
             try {
                 await UserService.deleteUser(id);
-                await this.fetchUsers(1);
+                this.users = this.users.filter(u => u._id !== id);
             } catch (error) {
                 throw `Error deleting user: ${error}`;
             }

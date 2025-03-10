@@ -59,5 +59,10 @@ export const useUserStore = defineStore('user', () => {
         }
     };
 
-    return { users, userDetails, fetchUsers, fetchUserDetails, addUser, editUser, removeUser };
+    // Clear user details
+    const clearUserDetails = () => {
+        userDetails.value = null;
+    }
+
+    return { users, userDetails, fetchUsers, fetchUserDetails, addUser, editUser, removeUser, clearUserDetails };
 });

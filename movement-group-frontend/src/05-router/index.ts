@@ -1,25 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router';
-// user components
-import UserList from '../07-pages/users/UserList.vue';
-import UserDetails from '../07-pages/users/UserDetails.vue';
-import AddUser from '../07-pages/users/AddUser.vue';
-import EditUser from '../07-pages/users/EditUser.vue';
-// auth components
-import Register from '../07-pages/auth/Register.vue';
-import Login from '../07-pages/auth/Login.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import UserManagement from "../07-pages/UserManagement.vue";
+import Login from "../07-pages/Login.vue";
+import Register from "../07-pages/Register.vue";
 
 const routes = [
-    // user routes
-    { path: '/', component: UserList },
-    { path: '/user/:id', component: UserDetails },
-    { path: '/add-user', component: AddUser },
-    { path: '/edit-user/:id', component: EditUser },
-    // auth routes
-    { path: '/register', component: Register },
-    { path: '/login', component: Login },
+    { path: "/", redirect: "/users" }, // Redirect home to /users
+    { path: "/users", component: UserManagement },
+    { path: "/login", component: Login }, // Fix missing route
+    { path: "/register", component: Register } // Fix missing route
 ];
 
-export const router = createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes
 });
+
+export default router;

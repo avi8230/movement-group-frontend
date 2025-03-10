@@ -5,3 +5,7 @@ export interface User {
     email: string;
     avatar: string;
 }
+
+export interface UserRegister extends User {
+    password: string;
+}

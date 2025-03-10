@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 // user components
-import UserList from '../views/users/UserList.vue';
-import UserDetails from '../views/users/UserDetails.vue';
-import AddUser from '../views/users/AddUser.vue';
-import EditUser from '../views/users/EditUser.vue';
+import UserList from '../07-pages/users/UserList.vue';
+import UserDetails from '../07-pages/users/UserDetails.vue';
+import AddUser from '../07-pages/users/AddUser.vue';
+import EditUser from '../07-pages/users/EditUser.vue';
 // auth components
-import Register from '../views/auth/Register.vue';
-import Login from '../views/auth/Login.vue';
+import Register from '../07-pages/auth/Register.vue';
+import Login from '../07-pages/auth/Login.vue';
 
 const routes = [
     // user routes

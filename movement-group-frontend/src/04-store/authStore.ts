@@ -33,7 +33,7 @@ export const useAuthStore = defineStore('auth', {
                 await AuthService.logout();
                 this.user = null;
                 this.isAuthenticated = false;
-                useUserStore().clearUserDetails();
+                useUserStore().clear();
             } catch (error) {
                 console.error('Error logging out', error);
             }

@@ -56,6 +56,7 @@ export const useUserStore = defineStore('user', {
         },
 
         clearUserDetails() {
+            this.users = [];
             this.userDetails = null;
         }
     }

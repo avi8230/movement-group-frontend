@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import AuthService from "../03-services/authService";
+import { useUserStore } from "./userStore";
 import type { Credentials } from '../02-models/Credentials';
 import type { User } from '../02-models/User';
 
@@ -32,6 +33,7 @@ export const useAuthStore = defineStore('auth', {
                 await AuthService.logout();
                 this.user = null;
                 this.isAuthenticated = false;
+                useUserStore().clearUserDetails();
             } catch (error) {
                 console.error('Error logging out', error);
             }

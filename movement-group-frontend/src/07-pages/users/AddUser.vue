@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useUserStore } from "../../04-store/userStore";
+import { User } from "../../02-models/User";
 
 const store = useUserStore();
 
 // Define reactive form fields
-const firstName = ref("");
-const lastName = ref("");
-const email = ref("");
+const firstName = ref<string>("");
+const lastName = ref<string>("");
+const email = ref<string>("");
 
 // Function to add user
 const addUser = async () => {
@@ -16,11 +17,15 @@ const addUser = async () => {
     return;
   }
 
-  await store.addUser({
+  const newUser: User = {
+    _id: "",
     first_name: firstName.value,
     last_name: lastName.value,
     email: email.value,
-  });
+    avatar: "",
+  };
+
+  await store.addUser(newUser);
 
   // Clear the form
   firstName.value = "";
@@ -35,14 +40,14 @@ const addUser = async () => {
   <div>
     <h2>Add New User</h2>
     <form @submit.prevent="addUser">
-      <label>First Name:</label>
-      <input v-model="firstName" type="text" required />
+      <label for="firstName">First Name:</label>
+      <input id="firstName" v-model="firstName" type="text" required />
 
-      <label>Last Name:</label>
-      <input v-model="lastName" type="text" required />
+      <label for="lastName">Last Name:</label>
+      <input id="lastName" v-model="lastName" type="text" required />
 
-      <label>Email:</label>
-      <input v-model="email" type="email" required />
+      <label for="email">Email:</label>
+      <input id="email" v-model="email" type="email" required />
 
       <button type="submit">Add User</button>
     </form>

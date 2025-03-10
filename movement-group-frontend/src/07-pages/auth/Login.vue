@@ -1,22 +1,27 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { login } from '../../03-services/userService';
-import { useRouter } from 'vue-router';
+import { ref } from "vue";
+import { login } from "../../03-services/userService";
+import { useRouter } from "vue-router";
+import { Credentials } from "../../02-models/Credentials";
 
 const router = useRouter();
-const email = ref('');
-const password = ref('');
-const errorMessage = ref('');
+const email = ref<string>("");
+const password = ref<string>("");
+const errorMessage = ref<string>("");
 
 // Function to log in the user
 const loginUser = async () => {
   try {
-    await login({ email: email.value, password: password.value });
-    alert('Login successful!');
-    router.push('/'); // Redirect to home page
+    const credentials: Credentials = {
+      email: email.value,
+      password: password.value,
+    };
+    await login(credentials);
+    alert("Login successful!");
+    router.push("/"); // Redirect to home page
   } catch (error) {
-    errorMessage.value = 'Login failed. Please check your credentials.';
-    console.error('Error logging in:', error);
+    errorMessage.value = "Login failed. Please check your credentials.";
+    console.error("Error logging in:", error);
   }
 };
 </script>
@@ -25,11 +30,11 @@ const loginUser = async () => {
   <div>
     <h2>Login</h2>
     <form @submit.prevent="loginUser">
-      <label>Email:</label>
-      <input v-model="email" type="email" required />
+      <label for="email">Email:</label>
+      <input id="email" v-model="email" type="email" required />
 
-      <label>Password:</label>
-      <input v-model="password" type="password" required />
+      <label for="password">Password:</label>
+      <input id="password" v-model="password" type="password" required />
 
       <button type="submit">Login</button>
     </form>

@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { getUsers, getUserById, createUser, updateUser, deleteUser } from '../03-services/userService';
+import type { User } from '../02-models/User';
+
 export const useUserStore = defineStore('user', () => {
-    const users = ref([]);
-    const userDetails = ref(null);
+    const users = ref<User[]>([]);
+    const userDetails = ref<User | null>(null);
 
     // Fetch all users
     const fetchUsers = async (page: number) => {
@@ -26,20 +28,22 @@ export const useUserStore = defineStore('user', () => {
     };
 
     // Create a new user
-    const addUser = async (userData: any) => {
+    const addUser = async (user: User) => {
         try {
-            await createUser(userData);
-            await fetchUsers(1); // Refresh user list
+            user = { ...user, _id: '' };
+            await createUser(user);
+            await fetchUsers(1);
         } catch (error) {
             console.error('Error creating user', error);
         }
     };
 
     // Update user details
-    const editUser = async (id: string, userData: any) => {
+    const editUser = async (user: User) => {
         try {
-            await updateUser(id, userData);
-            await fetchUserDetails(id);
+            const { _id, ...userData } = user;
+            await updateUser(_id, userData);
+            await fetchUserDetails(_id);
         } catch (error) {
             console.error('Error updating user', error);
         }

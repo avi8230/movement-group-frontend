@@ -5,13 +5,13 @@ import type { User } from "../02-models/User";
 const API_URL_AUTH = `${import.meta.env.VITE_API_URL}/auth`;
 
 const AuthService = {
-    register: async (data: User): Promise<User> => {
-        const response = await axios.post<User>(`${API_URL_AUTH}/register`, data);
+    register: async (user: User): Promise<User> => {
+        const response = await axios.post<User>(`${API_URL_AUTH}/register`, user);
         return response.data;
     },
 
-    login: async (data: Credentials): Promise<User> => {
-        const response = await axios.post<User>(`${API_URL_AUTH}/login`, data);
+    login: async (user: Credentials): Promise<User> => {
+        const response = await axios.post<User>(`${API_URL_AUTH}/login`, user);
         return response.data;
     },
 

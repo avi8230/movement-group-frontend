@@ -10,9 +10,9 @@ export const useAuthStore = defineStore('auth', {
         isAuthenticated: false
     }),
     actions: {
-        async register(userData: User) {
+        async register(user: User) {
             try {
-                const data = await AuthService.register(userData);
+                const data = await AuthService.register(user);
                 this.user = data;
                 this.isAuthenticated = true;
             } catch (error) {

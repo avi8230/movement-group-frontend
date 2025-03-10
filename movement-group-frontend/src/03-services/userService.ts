@@ -16,13 +16,13 @@ const UserService = {
         return response.data;
     },
 
-    createUser: async (data: User): Promise<User> => {
-        const response = await axios.post(`${API_URL_USER}/createUser`, data);
+    createUser: async (user: User): Promise<User> => {
+        const response = await axios.post(`${API_URL_USER}/createUser`, user);
         return response.data;
     },
 
-    updateUser: async (data: User): Promise<User> => {
-        const response = await axios.put(`${API_URL_USER}/updateUser/${data._id}`, data);
+    updateUser: async (user: User): Promise<User> => {
+        const response = await axios.put(`${API_URL_USER}/updateUser/${user._id}`, user);
         return response.data;
     },
 

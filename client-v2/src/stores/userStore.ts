@@ -11,6 +11,7 @@ export const useUserStore = defineStore('user', {
         async fetchUsers(page: number): Promise<any> {
             try {
                 const data: any = await UserService.getUsers(page);
+                console.log(data);
                 this.users = data.users;
                 return data;
             } catch (error) {

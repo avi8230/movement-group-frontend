@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { getUsers, getUserById, createUser, updateUser, deleteUser } from '../03-services/userService';
+import UserService from '../03-services/userService';
 import type { User } from '../02-models/User';
 
 export const useUserStore = defineStore('user', () => {
@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', () => {
     // Fetch all users
     const fetchUsers = async (page: number) => {
         try {
-            const { data } = await getUsers(page);
+            const { data } = await UserService.getUsers(page);
             users.value = data.users;
         } catch (error) {
             console.error('Error fetching users', error);
@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', () => {
     // Fetch user details by ID
     const fetchUserDetails = async (id: string) => {
         try {
-            const { data } = await getUserById(id);
+            const { data } = await UserService.getUserById(id);
             userDetails.value = data;
         } catch (error) {
             console.error('Error fetching user details', error);
@@ -31,7 +31,7 @@ export const useUserStore = defineStore('user', () => {
     const addUser = async (user: User) => {
         try {
             user = { ...user, _id: '' };
-            await createUser(user);
+            await UserService.createUser(user);
             await fetchUsers(1);
         } catch (error) {
             console.error('Error creating user', error);
@@ -42,7 +42,7 @@ export const useUserStore = defineStore('user', () => {
     const editUser = async (user: User) => {
         try {
             const { _id, ...userData } = user;
-            await updateUser(_id, userData);
+            await UserService.updateUser(_id, userData);
             await fetchUserDetails(_id);
         } catch (error) {
             console.error('Error updating user', error);
@@ -52,7 +52,7 @@ export const useUserStore = defineStore('user', () => {
     // Delete a user
     const removeUser = async (id: string) => {
         try {
-            await deleteUser(id);
+            await UserService.deleteUser(id);
             await fetchUsers(1);
         } catch (error) {
             console.error('Error deleting user', error);

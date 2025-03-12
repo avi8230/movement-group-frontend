@@ -58,6 +58,10 @@ const router = createRouter({
             component: () => import('../pages/register.vue'),
             name: 'Register',
             meta: { requiresAuth: false }
+        },
+        {
+            path: '/:pathMatch(.*)*',
+            redirect: '/'
         }
     ]),
 })

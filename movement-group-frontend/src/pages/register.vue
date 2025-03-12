@@ -105,6 +105,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/authStore";
+import { useSnackbarStore } from "@/stores/snackbarStore";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 
@@ -112,6 +113,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 const loading = ref(false);
 const showPassword = ref(false);
+const snackbarStore = useSnackbarStore();
 
 const schema = yup.object({
   first_name: yup.string().min(2).required().label("First Name"),
@@ -162,13 +164,22 @@ const [confirmPassword, confirmPasswordProps] = defineField(
 const onSubmit = handleSubmit(async (values) => {
   try {
     loading.value = true;
-    await authStore.register({
+    const result = await authStore.register({
       first_name: values.first_name,
       last_name: values.last_name,
       email: values.email,
       avatar: values.avatar,
       password: values.password,
     });
+    if (result.error) {
+      snackbarStore.showSnackbar({
+        message: result?.error || "Failed to register",
+        color: "error",
+        show: true,
+      });
+      return;
+    }
+    // Redirect to home page after successful registration
     router.push("/");
   } catch (error) {
     console.error("Registration error:", error);

@@ -94,18 +94,22 @@ const [password, passwordProps] = defineField("password", vuetifyConfig);
 const onSubmit = handleSubmit(async (values) => {
   try {
     loading.value = true;
-    await authStore.login({
+    const result = await authStore.login({
       email: values.email,
       password: values.password,
     });
+    if (result.error) {
+      snackbarStore.showSnackbar({
+        message: result?.error || "Failed to login",
+        color: "error",
+        show: true,
+      });
+      return;
+    }
+    // Redirect to home page after successful login
     router.push("/");
   } catch (error) {
     console.error("Login error:", error);
-    snackbarStore.showSnackbar({
-      message: error?.message || "Failed to load user details",
-      color: "error",
-      show: true,
-    });
   } finally {
     loading.value = false;
   }

@@ -47,11 +47,13 @@ import { ref, onMounted } from "vue";
 import { useTheme } from "vuetify";
 import { useAuthStore } from "@/stores/authStore";
 import { useRouter } from "vue-router";
+import { useSnackbarStore } from "@/stores/snackbarStore";
 
 const theme = useTheme();
 const isDark = ref(false);
 const authStore = useAuthStore();
 const router = useRouter();
+const snackbarStore = useSnackbarStore();
 
 onMounted(() => {
   isDark.value = theme.global.current.value.dark;
@@ -64,8 +66,15 @@ const toggleTheme = () => {
 
 const handleLogout = async () => {
   try {
-    await authStore.logout();
+    const response = await authStore.logout();
     router.push("/login");
+    if (response.error) {
+      snackbarStore.showSnackbar({
+        message: response?.error || "Failed to logout",
+        color: "error",
+        show: true,
+      });
+    }
   } catch (error) {
     console.error("Logout error:", error);
   }

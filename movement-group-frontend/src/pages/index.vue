@@ -85,6 +85,7 @@
 <script setup lang="ts">
 import { defineComponent, onMounted, computed, ref, watch } from "vue";
 import { useUserStore } from "../stores/userStore";
+import { useSnackbarStore } from "../stores/snackbarStore";
 import { useRoute, useRouter } from "vue-router";
 import type { User } from "../types/User";
 
@@ -95,6 +96,8 @@ defineComponent({
 const store = useUserStore();
 const route = useRoute();
 const router = useRouter();
+const snackbarStore = useSnackbarStore();
+
 // @ts-ignore
 const paramPage = computed(() => Number(route.params.page) || 1);
 
@@ -115,7 +118,17 @@ watch(
 
 // Fetch user details when component is mounted
 onMounted(() => {
-  store.fetchUsers(currentPage.value);
+  try {
+    store.fetchUsers(currentPage.value);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    snackbarStore.showSnackbar({
+      show: true,
+      message: "Failed to fetch users",
+      color: "error",
+      timeout: 3000,
+    });
+  }
 });
 
 const users = computed<User[]>(() => store.users);

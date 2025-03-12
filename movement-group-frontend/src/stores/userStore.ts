@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import UserService from '../http/userService';
 import type { User } from '../types/User';
 import type { PaginationState } from '../types/PaginationState';
+import axios from 'axios';
 
 export const useUserStore = defineStore('user', {
     state: () => ({
@@ -29,8 +30,21 @@ export const useUserStore = defineStore('user', {
                 };
             } catch (error) {
                 this.users = [];
-                this.error = error as Error;
-                throw new Error(`Error fetching users: ${error}`);
+
+                if (axios.isAxiosError(error)) {
+                    console.error("Axios error detected:", error);
+
+                    if (error.response) {
+                        this.error = new Error(error.response.data?.error || "An error occurred while fetching users");
+                    } else {
+                        this.error = new Error("An unknown Axios error occurred");
+                    }
+                } else {
+                    this.error = new Error("An unexpected error occurred");
+                }
+
+                console.log(this.error);
+                // throw new Error(`Error fetching users: ${error}`);
             } finally {
                 this.loading = false;
             }

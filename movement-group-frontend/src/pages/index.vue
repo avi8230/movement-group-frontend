@@ -20,9 +20,9 @@
       <!-- Users Grid -->
       <v-row>
         <v-col v-for="user in users" :key="user._id" cols="12" sm="6" md="4">
-          <v-card class="mx-auto" max-width="344" elevation="3">
+          <v-card class="mx-auto" 
+          elevation="3">
             <v-img
-              height="200px"
               :src="user.avatar || defaultAvatar"
               :alt="user.first_name"
               cover

@@ -117,7 +117,9 @@ const schema = yup.object({
   first_name: yup.string().min(2).required().label("First Name"),
   last_name: yup.string().min(2).required().label("Last Name"),
   email: yup.string().email().required().label("Email"),
-  avatar: yup.string().url().required().label("Avatar URL"),
+  avatar: yup.string().url()
+//   .required()
+  .label("Avatar URL"),
   password: yup
     .string()
     .required()

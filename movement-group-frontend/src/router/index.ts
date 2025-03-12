@@ -10,7 +10,6 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import { routes } from 'vue-router/auto-routes'
 import type { RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
 import UserDetails from '../pages/user-details.vue'
-import UpdateUser from '../pages/update-user.vue'
 import Home from '../pages/index.vue'
 import { useAuthStore } from '@/stores/authStore'
 
@@ -34,11 +33,11 @@ const router = createRouter({
             path: '/user/:id',
             component: UserDetails,
             name: 'UserDetails',
-            meta: { requiresAuth: false }
+            meta: { requiresAuth: true }
         },
         {
             path: '/user/:id/edit',
-            component: UpdateUser,
+            component: () => import('../pages/update-user.vue'),
             name: 'UpdateUser',
             meta: { requiresAuth: true }
         },

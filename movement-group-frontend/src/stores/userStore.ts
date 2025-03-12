@@ -1,12 +1,7 @@
 import { defineStore } from 'pinia';
 import UserService from '../http/userService';
 import type { User } from '../types/User';
-
-interface PaginationState {
-    page: number;
-    totalPages: number;
-    totalUsers: number;
-}
+import type { PaginationState } from '../types/PaginationState';
 
 export const useUserStore = defineStore('user', {
     state: () => ({

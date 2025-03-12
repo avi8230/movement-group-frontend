@@ -40,7 +40,7 @@ const defaultAvatar = "https://i.pravatar.cc/300";
 const handlePageChange = async (newPage: number) => {
   // Update route which will trigger the watch
   await router.push(`/page/${newPage}`);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 };
 </script>
 

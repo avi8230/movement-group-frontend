@@ -102,72 +102,80 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/authStore'
-import { useForm } from 'vee-validate'
-import * as yup from 'yup'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/authStore";
+import { useForm } from "vee-validate";
+import * as yup from "yup";
 
-const router = useRouter()
-const authStore = useAuthStore()
-const loading = ref(false)
-const showPassword = ref(false)
+const router = useRouter();
+const authStore = useAuthStore();
+const loading = ref(false);
+const showPassword = ref(false);
 
 const schema = yup.object({
-  first_name: yup.string().min(2).required().label('First Name'),
-  last_name: yup.string().min(2).required().label('Last Name'),
-  email: yup.string().email().required().label('Email'),
-  avatar: yup.string().url().required().label('Avatar URL'),
-  password: yup.string()
+  first_name: yup.string().min(2).required().label("First Name"),
+  last_name: yup.string().min(2).required().label("Last Name"),
+  email: yup.string().email().required().label("Email"),
+  avatar: yup.string().url().required().label("Avatar URL"),
+  password: yup
+    .string()
     .required()
-    .min(8, 'Password must be at least 8 characters')
-    .matches(/[A-Z]/, 'Password must include at least one uppercase letter')
-    .matches(/[a-z]/, 'Password must include at least one lowercase letter')
-    .matches(/[0-9]/, 'Password must include at least one number')
-    .matches(/[^A-Za-z0-9]/, 'Password must include at least one special character')
-    .label('Password'),
-  confirmPassword: yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[A-Z]/, "Password must include at least one uppercase letter")
+    .matches(/[a-z]/, "Password must include at least one lowercase letter")
+    .matches(/[0-9]/, "Password must include at least one number")
+    .matches(
+      /[^A-Za-z0-9]/,
+      "Password must include at least one special character"
+    )
+    .label("Password"),
+  confirmPassword: yup
+    .string()
     .required()
-    .oneOf([yup.ref('password')], 'Passwords must match')
-    .label('Confirm Password'),
-})
+    .oneOf([yup.ref("password")], "Passwords must match")
+    .label("Confirm Password"),
+});
 
 // example of a password: Password123!
 
 const { defineField, handleSubmit } = useForm({
   validationSchema: schema,
-})
+});
 
 const vuetifyConfig = (state: { errors: any }) => ({
   props: {
-    'error-messages': state.errors,
+    "error-messages": state.errors,
   },
-})
+});
 
-const [first_name, firstNameProps] = defineField('first_name', vuetifyConfig)
-const [last_name, lastNameProps] = defineField('last_name', vuetifyConfig)
-const [email, emailProps] = defineField('email', vuetifyConfig)
-const [avatar, avatarProps] = defineField('avatar', vuetifyConfig)
-const [password, passwordProps] = defineField('password', vuetifyConfig)
-const [confirmPassword, confirmPasswordProps] = defineField('confirmPassword', vuetifyConfig)
+const [first_name, firstNameProps] = defineField("first_name", vuetifyConfig);
+const [last_name, lastNameProps] = defineField("last_name", vuetifyConfig);
+const [email, emailProps] = defineField("email", vuetifyConfig);
+const [avatar, avatarProps] = defineField("avatar", vuetifyConfig);
+const [password, passwordProps] = defineField("password", vuetifyConfig);
+const [confirmPassword, confirmPasswordProps] = defineField(
+  "confirmPassword",
+  vuetifyConfig
+);
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    loading.value = true
+    loading.value = true;
     await authStore.register({
       first_name: values.first_name,
       last_name: values.last_name,
       email: values.email,
       avatar: values.avatar,
       password: values.password,
-    })
-    router.push('/')
+    });
+    router.push("/");
   } catch (error) {
-    console.error('Registration error:', error)
+    console.error("Registration error:", error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-})
+});
 </script>
 
 <style scoped>

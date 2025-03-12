@@ -102,7 +102,10 @@ const handleDelete = async () => {
               {{ currentUser.email }}
             </div>
           </v-card-text>
-          <v-card-actions v-if="isAuthenticated" class="px-4 pb-4 d-flex flex-column">
+          <v-card-actions
+            v-if="isAuthenticated"
+            class="px-4 pb-4 d-flex flex-column"
+          >
             <v-btn
               color="primary"
               variant="tonal"

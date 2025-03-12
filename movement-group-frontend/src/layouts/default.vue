@@ -10,14 +10,14 @@
 </template>
 
 <script lang="ts" setup>
-import AppNavbar from '@/components/AppNavbar.vue'
-import AppSnackbar from '@/components/AppSnackbar.vue';
-import AppFooter from '@/components/AppFooter.vue';
+import AppNavbar from "@/components/AppNavbar.vue";
+import AppSnackbar from "@/components/AppSnackbar.vue";
+import AppFooter from "@/components/AppFooter.vue";
 </script>
 
 <style scoped>
 .v-app-bar {
-  background-color: #1976D2;
+  background-color: #1976d2;
   color: white;
 }
 </style>

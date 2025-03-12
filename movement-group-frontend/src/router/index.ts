@@ -18,27 +18,27 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: setupLayouts([
         ...routes,
-        { 
-            path: '/', 
-            component: Home, 
+        {
+            path: '/',
+            component: Home,
             name: 'home',
             meta: { requiresAuth: false }
         },
-        { 
-            path: '/page/:page', 
-            component: Home, 
+        {
+            path: '/page/:page',
+            component: Home,
             name: 'page',
             meta: { requiresAuth: false }
         },
-        { 
-            path: '/user/:id', 
-            component: UserDetails, 
+        {
+            path: '/user/:id',
+            component: UserDetails,
             name: 'UserDetails',
             meta: { requiresAuth: false }
         },
-        { 
-            path: '/user/:id/edit', 
-            component: UpdateUser, 
+        {
+            path: '/user/:id/edit',
+            component: UpdateUser,
             name: 'UpdateUser',
             meta: { requiresAuth: true }
         },
@@ -71,11 +71,11 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
     // Handle protected routes
     if (requiresAuth && !authStore.isAuthenticated) {
         // Store the intended destination
-        next({ 
-            path: '/login', 
+        next({
+            path: '/login',
             query: { redirect: to.fullPath }
         })
-    } 
+    }
     // Prevent authenticated users from accessing login/register
     else if (authStore.isAuthenticated && ['/login', '/register'].includes(to.path)) {
         next({ path: '/' })

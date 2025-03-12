@@ -10,23 +10,23 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: 'Confirm Action',
-  confirmText: 'Confirm',
-  cancelText: 'Cancel',
-  confirmColor: 'error',
-  width: 400
+  title: "Confirm Action",
+  confirmText: "Confirm",
+  cancelText: "Cancel",
+  confirmColor: "error",
+  width: 400,
 });
 
-const emit = defineEmits(['update:modelValue', 'confirm', 'cancel']);
+const emit = defineEmits(["update:modelValue", "confirm", "cancel"]);
 
 const onConfirm = () => {
-  emit('confirm');
-  emit('update:modelValue', false);
+  emit("confirm");
+  emit("update:modelValue", false);
 };
 
 const onCancel = () => {
-  emit('cancel');
-  emit('update:modelValue', false);
+  emit("cancel");
+  emit("update:modelValue", false);
 };
 </script>
 
@@ -48,16 +48,10 @@ const onCancel = () => {
 
       <v-card-actions class="pa-4">
         <v-spacer />
-        <v-btn
-          variant="tonal"
-          @click="onCancel"
-        >
+        <v-btn variant="tonal" @click="onCancel">
           {{ cancelText }}
         </v-btn>
-        <v-btn
-          :color="confirmColor"
-          @click="onConfirm"
-        >
+        <v-btn :color="confirmColor" @click="onConfirm">
           {{ confirmText }}
         </v-btn>
       </v-card-actions>

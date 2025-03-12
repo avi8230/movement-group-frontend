@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useUserStore } from '../stores/userStore';
-import { useSnackbarStore } from '../stores/snackbar';
-import UserForm from '../components/UserForm.vue';
-import type { User } from '../types/User';
+import { ref, onMounted, computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useUserStore } from "../stores/userStore";
+import { useSnackbarStore } from "../stores/snackbar";
+import UserForm from "../components/UserForm.vue";
+import type { User } from "../types/User";
 
 const store = useUserStore();
 const snackbarStore = useSnackbarStore();
@@ -21,21 +21,21 @@ onMounted(async () => {
     if (!user.value) {
       snackbarStore.showSnackbar({
         show: true,
-        message: 'User not found',
-        color: 'error',
-        timeout: 3000
+        message: "User not found",
+        color: "error",
+        timeout: 3000,
       });
-      router.push('/');
+      router.push("/");
     }
   } catch (error) {
-    console.error('Error fetching user:', error);
+    console.error("Error fetching user:", error);
     snackbarStore.showSnackbar({
       show: true,
-      message: 'Error fetching user details',
-      color: 'error',
-      timeout: 3000
+      message: "Error fetching user details",
+      color: "error",
+      timeout: 3000,
     });
-    router.push('/');
+    router.push("/");
   } finally {
     loading.value = false;
   }
@@ -46,32 +46,36 @@ const handleSubmit = async (values: User) => {
     await store.editUser({ ...values, _id: userId.value });
     snackbarStore.showSnackbar({
       show: true,
-      message: 'User updated successfully',
-      color: 'success',
-      timeout: 3000
+      message: "User updated successfully",
+      color: "success",
+      timeout: 3000,
     });
-    router.push('/');
+    router.push("/");
   } catch (error) {
-    console.error('Error updating user:', error);
+    console.error("Error updating user:", error);
     snackbarStore.showSnackbar({
       show: true,
-      message: 'Failed to update user',
-      color: 'error',
-      timeout: 3000
+      message: "Failed to update user",
+      color: "error",
+      timeout: 3000,
     });
   }
 };
 </script>
 
 <template>
-  <div v-if="loading" class="d-flex justify-center align-center" style="height: 400px;">
+  <div
+    v-if="loading"
+    class="d-flex justify-center align-center"
+    style="height: 400px"
+  >
     <v-progress-circular indeterminate color="primary" />
   </div>
-  <UserForm 
-    v-else-if="user" 
-    :initial-values="user" 
+  <UserForm
+    v-else-if="user"
+    :initial-values="user"
     :is-update="true"
-    @submit="handleSubmit" 
+    @submit="handleSubmit"
   />
   <div v-else class="text-center pa-4">
     <p class="text-h6">User not found</p>

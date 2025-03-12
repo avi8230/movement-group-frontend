@@ -127,7 +127,7 @@ const onSubmit = handleSubmit((values) => {
                 size="large"
                 block
                 class="text-none text-subtitle-1"
-                style="margin-top: 10px;"
+                style="margin-top: 10px"
               >
                 Reset Form
               </v-btn>

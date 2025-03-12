@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import UserDetails from '../components/UserDetails.vue';
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import UserDetails from "../components/UserDetails.vue";
 
 const route = useRoute();
 // @ts-ignore

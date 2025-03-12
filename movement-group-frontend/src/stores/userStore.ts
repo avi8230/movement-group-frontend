@@ -2,14 +2,14 @@ import { defineStore } from 'pinia';
 import UserService from '../http/userService';
 import type { User } from '../types/User';
 import type { PaginationState } from '../types/PaginationState';
-import axios from 'axios';
+import type { ErrorResponse } from '../utils/errorHandler';
 
 export const useUserStore = defineStore('user', {
     state: () => ({
         users: [] as User[],
         userDetails: null as User | null,
         currentUser: null as User | null,
-        error: null as Error | null,
+        error: null as ErrorResponse | null,
         loading: false as boolean,
         pagination: {
             page: 1,
@@ -21,30 +21,18 @@ export const useUserStore = defineStore('user', {
         async fetchUsers(page: number = 1): Promise<void> {
             this.loading = true;
             try {
-                const data = await UserService.getUsers(page);
-                this.users = data.users;
-                this.pagination = {
-                    page: data.page,
-                    totalPages: data.totalPages,
-                    totalUsers: data.totalUsers
-                };
-            } catch (error) {
-                this.users = [];
-
-                if (axios.isAxiosError(error)) {
-                    console.error("Axios error detected:", error);
-
-                    if (error.response) {
-                        this.error = new Error(error.response.data?.error || "An error occurred while fetching users");
-                    } else {
-                        this.error = new Error("An unknown Axios error occurred");
-                    }
+                const { response, error } = await UserService.getUsers(page);
+                if (response) {
+                    this.users = response.users;
+                    this.pagination = {
+                        page: response.page,
+                        totalPages: response.totalPages,
+                        totalUsers: response.totalUsers
+                    };
                 } else {
-                    this.error = new Error("An unexpected error occurred");
+                    this.users = [];
+                    this.error = error;
                 }
-
-                console.log(this.error);
-                // throw new Error(`Error fetching users: ${error}`);
             } finally {
                 this.loading = false;
             }
@@ -53,13 +41,15 @@ export const useUserStore = defineStore('user', {
         async fetchUserDetails(id: string): Promise<User | null> {
             this.loading = true;
             try {
-                const data: User = await UserService.getUserById(id);
-                this.userDetails = data;
-                this.currentUser = data;
-                return data;
-            } catch (error) {
-                this.userDetails = null;
-                this.error = error as Error;
+                const { response, error } = await UserService.getUserById(id);
+                if (response) {
+                    this.userDetails = response;
+                    this.currentUser = response;
+                    return response;
+                } else {
+                    this.userDetails = null;
+                    this.error = error;
+                }
             } finally {
                 this.loading = false;
             }
@@ -69,12 +59,14 @@ export const useUserStore = defineStore('user', {
         async addUser(user: User): Promise<User | null> {
             this.loading = true;
             try {
-                const newUser: User = await UserService.createUser(user);
-                this.users.push(newUser);
-                this.pagination.totalUsers += 1;
-                return newUser;
-            } catch (error) {
-                this.error = error as Error;
+                const { response, error } = await UserService.createUser(user);
+                if (response) {
+                    this.users.push(response);
+                    this.pagination.totalUsers += 1;
+                    return response;
+                } else {
+                    this.error = error;
+                }
             } finally {
                 this.loading = false;
             }
@@ -84,33 +76,38 @@ export const useUserStore = defineStore('user', {
         async editUser(user: User): Promise<User | null> {
             this.loading = true;
             try {
-                const updateUser: User = await UserService.updateUser(user);
-                this.userDetails = updateUser;
-                this.users = this.users.map(u => u._id === updateUser._id ? updateUser : u);
-                if (this.currentUser?._id === updateUser._id) {
-                    this.currentUser = updateUser;
+                const { response, error } = await UserService.updateUser(user);
+                if (response) {
+                    this.userDetails = response;
+                    this.users = this.users.map(u => u._id === response._id ? response : u);
+                    if (this.currentUser?._id === response._id) {
+                        this.currentUser = response;
+                    }
+                    return response;
+                } else {
+                    this.error = error;
                 }
-                return updateUser;
-            } catch (error) {
-                this.error = error as Error;
             } finally {
                 this.loading = false;
             }
             return null;
         },
 
-        async removeUser(id: string): Promise<void> {
+        async removeUser(id: string): Promise<boolean> {
             this.loading = true;
             try {
-                await UserService.deleteUser(id);
-                this.users = this.users.filter(u => u._id !== id);
-                this.pagination.totalUsers -= 1;
-                if (this.currentUser?._id === id) {
-                    this.currentUser = null;
+                const { error } = await UserService.deleteUser(id);
+                if (!error) {
+                    this.users = this.users.filter(u => u._id !== id);
+                    this.pagination.totalUsers -= 1;
+                    if (this.currentUser?._id === id) {
+                        this.currentUser = null;
+                    }
+                    return true;
+                } else {
+                    this.error = error;
+                    return false;
                 }
-            } catch (error) {
-                this.error = error as Error;
-                throw new Error(`Error deleting user: ${error}`);
             } finally {
                 this.loading = false;
             }
@@ -120,6 +117,7 @@ export const useUserStore = defineStore('user', {
             this.users = [];
             this.userDetails = null;
             this.currentUser = null;
+            this.error = null;
             this.pagination = {
                 page: 1,
                 totalPages: 1,

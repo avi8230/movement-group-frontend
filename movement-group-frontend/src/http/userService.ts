@@ -10,22 +10,22 @@ export async function getUsers(page: number): Promise<
     return response.data;
 }
 
-async function getUserById(_id: string): Promise<User> {
+export async function getUserById(_id: string): Promise<User> {
     const response = await axios.get(`${API_URL_USER}/getUser/${_id}`);
     return response.data;
 }
 
-async function createUser(user: User): Promise<User> {
+export async function createUser(user: User): Promise<User> {
     const response = await axios.post(`${API_URL_USER}/createUser`, user);
     return response.data;
 }
 
-async function updateUser(user: User): Promise<User> {
+export async function updateUser(user: User): Promise<User> {
     const response = await axios.put(`${API_URL_USER}/updateUser/${user._id}`, user);
     return response.data;
 }
 
-async function deleteUser(_id: string): Promise<void> {
+export async function deleteUser(_id: string): Promise<void> {
     const response = await axios.delete(`${API_URL_USER}/deleteUser/${_id}`);
     return response.data;
 }

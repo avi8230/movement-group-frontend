@@ -63,6 +63,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/authStore";
 import type { Credentials } from "@/types/Credentials";
+import { useSnackbarStore } from "@/stores/snackbarStore";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 
@@ -70,6 +71,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 const loading = ref(false);
 const showPassword = ref(false);
+const snackbarStore = useSnackbarStore();
 
 const schema = yup.object({
   email: yup.string().email().required().label("Email"),
@@ -99,6 +101,11 @@ const onSubmit = handleSubmit(async (values) => {
     router.push("/");
   } catch (error) {
     console.error("Login error:", error);
+    snackbarStore.showSnackbar({
+      message: error?.message || "Failed to load user details",
+      color: "error",
+      show: true,
+    });
   } finally {
     loading.value = false;
   }

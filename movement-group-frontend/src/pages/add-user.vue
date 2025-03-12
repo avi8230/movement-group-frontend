@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { useUserStore } from "../stores/userStore";
-import { useSnackbarStore } from "../stores/snackbar";
+import { useSnackbarStore } from "../stores/snackbarStore";
 import UserForm from "../components/UserForm.vue";
 import type { User } from "../types/User";
 import { useRouter } from "vue-router";

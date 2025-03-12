@@ -22,7 +22,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../stores/userStore";
-import { useSnackbarStore } from "../stores/snackbar";
+import { useSnackbarStore } from "../stores/snackbarStore";
 import UserForm from "../components/UserForm.vue";
 import type { User } from "../types/User";
 

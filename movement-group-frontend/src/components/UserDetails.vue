@@ -176,7 +176,7 @@ import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import { useAuthStore } from "@/stores/authStore";
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import { useSnackbarStore } from "../stores/snackbar";
+import { useSnackbarStore } from "../stores/snackbarStore";
 
 const props = defineProps<{
   id: string;

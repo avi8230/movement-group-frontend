@@ -1,49 +1,3 @@
-<script setup lang="ts">
-import { defineComponent, onMounted, computed, ref, watch } from "vue";
-import { useUserStore } from "../stores/userStore";
-import { useRoute, useRouter } from "vue-router";
-import type { User } from "../types/User";
-
-defineComponent({
-  name: "Home",
-});
-
-const store = useUserStore();
-const route = useRoute();
-const router = useRouter();
-// @ts-ignore
-const paramPage = computed(() => Number(route.params.page) || 1);
-
-// Get page from route or default to 1
-const currentPage = computed(() => {
-  // @ts-ignore
-  const page = paramPage.value;
-  return page > 0 ? page : 1;
-});
-
-// Watch for route changes
-watch(
-  () => paramPage.value,
-  () => {
-    store.fetchUsers(currentPage.value);
-  }
-);
-
-// Fetch user details when component is mounted
-onMounted(() => {
-  store.fetchUsers(currentPage.value);
-});
-
-const users = computed<User[]>(() => store.users);
-const defaultAvatar = "https://i.pravatar.cc/300";
-
-const handlePageChange = async (newPage: number) => {
-  // Update route which will trigger the watch
-  await router.push(`/page/${newPage}`);
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
-</script>
-
 <template>
   <v-container>
     <!-- Loading State -->
@@ -127,6 +81,52 @@ const handlePageChange = async (newPage: number) => {
     </template>
   </v-container>
 </template>
+
+<script setup lang="ts">
+import { defineComponent, onMounted, computed, ref, watch } from "vue";
+import { useUserStore } from "../stores/userStore";
+import { useRoute, useRouter } from "vue-router";
+import type { User } from "../types/User";
+
+defineComponent({
+  name: "Home",
+});
+
+const store = useUserStore();
+const route = useRoute();
+const router = useRouter();
+// @ts-ignore
+const paramPage = computed(() => Number(route.params.page) || 1);
+
+// Get page from route or default to 1
+const currentPage = computed(() => {
+  // @ts-ignore
+  const page = paramPage.value;
+  return page > 0 ? page : 1;
+});
+
+// Watch for route changes
+watch(
+  () => paramPage.value,
+  () => {
+    store.fetchUsers(currentPage.value);
+  }
+);
+
+// Fetch user details when component is mounted
+onMounted(() => {
+  store.fetchUsers(currentPage.value);
+});
+
+const users = computed<User[]>(() => store.users);
+const defaultAvatar = "https://i.pravatar.cc/300";
+
+const handlePageChange = async (newPage: number) => {
+  // Update route which will trigger the watch
+  await router.push(`/page/${newPage}`);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+</script>
 
 <style scoped>
 .v-card {

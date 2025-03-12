@@ -1,8 +1,3 @@
-<script setup lang="ts">
-import { useSnackbarStore } from "../stores/snackbar";
-const snackbarStore = useSnackbarStore();
-</script>
-
 <template>
   <v-snackbar
     v-model="snackbarStore.snackbar.show"
@@ -21,3 +16,8 @@ const snackbarStore = useSnackbarStore();
     </template>
   </v-snackbar>
 </template>
+
+<script setup lang="ts">
+import { useSnackbarStore } from "../stores/snackbar";
+const snackbarStore = useSnackbarStore();
+</script>

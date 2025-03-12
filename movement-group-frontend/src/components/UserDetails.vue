@@ -1,60 +1,3 @@
-<script setup lang="ts">
-import { onMounted, onUnmounted, ref, computed } from "vue";
-import { useRouter } from "vue-router";
-import { useUserStore } from "@/stores/userStore";
-import { useAuthStore } from "@/stores/authStore";
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import { useSnackbarStore } from "../stores/snackbar";
-
-const props = defineProps<{
-  id: string;
-}>();
-
-const router = useRouter();
-const userStore = useUserStore();
-const authStore = useAuthStore();
-const snackbarStore = useSnackbarStore();
-const showDeleteDialog = ref(false);
-
-onMounted(async () => {
-  try {
-    await userStore.fetchUserDetails(props.id);
-  } catch (error) {
-    snackbarStore.showSnackbar({
-      message: "Failed to load user details",
-      color: "error",
-      show: true,
-    });
-  }
-});
-
-onUnmounted(() => {
-  userStore.clearCurrentUser();
-  userStore.clearError();
-});
-
-const currentUser = computed(() => userStore.currentUser);
-const isAuthenticated = computed(() => authStore.isAuthenticated);
-
-const handleDelete = async () => {
-  try {
-    await userStore.removeUser(props.id);
-    snackbarStore.showSnackbar({
-      message: "User deleted successfully",
-      color: "success",
-      show: true,
-    });
-    router.push("/");
-  } catch (error) {
-    snackbarStore.showSnackbar({
-      message: (error as Error)?.message || "Failed to delete user",
-      color: "error",
-      show: true,
-    });
-  }
-};
-</script>
-
 <template>
   <v-container class="py-8">
     <!-- Error Alert -->
@@ -226,3 +169,60 @@ const handleDelete = async () => {
     />
   </v-container>
 </template>
+
+<script setup lang="ts">
+import { onMounted, onUnmounted, ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/userStore";
+import { useAuthStore } from "@/stores/authStore";
+import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import { useSnackbarStore } from "../stores/snackbar";
+
+const props = defineProps<{
+  id: string;
+}>();
+
+const router = useRouter();
+const userStore = useUserStore();
+const authStore = useAuthStore();
+const snackbarStore = useSnackbarStore();
+const showDeleteDialog = ref(false);
+
+onMounted(async () => {
+  try {
+    await userStore.fetchUserDetails(props.id);
+  } catch (error) {
+    snackbarStore.showSnackbar({
+      message: "Failed to load user details",
+      color: "error",
+      show: true,
+    });
+  }
+});
+
+onUnmounted(() => {
+  userStore.clearCurrentUser();
+  userStore.clearError();
+});
+
+const currentUser = computed(() => userStore.currentUser);
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+
+const handleDelete = async () => {
+  try {
+    await userStore.removeUser(props.id);
+    snackbarStore.showSnackbar({
+      message: "User deleted successfully",
+      color: "success",
+      show: true,
+    });
+    router.push("/");
+  } catch (error) {
+    snackbarStore.showSnackbar({
+      message: (error as Error)?.message || "Failed to delete user",
+      color: "error",
+      show: true,
+    });
+  }
+};
+</script>

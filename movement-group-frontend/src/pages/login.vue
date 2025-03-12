@@ -1,50 +1,3 @@
-<script lang="ts" setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/authStore";
-import type { Credentials } from "@/types/Credentials";
-import { useForm } from "vee-validate";
-import * as yup from "yup";
-
-const router = useRouter();
-const authStore = useAuthStore();
-const loading = ref(false);
-const showPassword = ref(false);
-
-const schema = yup.object({
-  email: yup.string().email().required().label("Email"),
-  password: yup.string().min(6).required().label("Password"),
-});
-
-const { defineField, handleSubmit } = useForm({
-  validationSchema: schema,
-});
-
-const vuetifyConfig = (state: { errors: any }) => ({
-  props: {
-    "error-messages": state.errors,
-  },
-});
-
-const [email, emailProps] = defineField("email", vuetifyConfig);
-const [password, passwordProps] = defineField("password", vuetifyConfig);
-
-const onSubmit = handleSubmit(async (values) => {
-  try {
-    loading.value = true;
-    await authStore.login({
-      email: values.email,
-      password: values.password,
-    });
-    router.push("/");
-  } catch (error) {
-    console.error("Login error:", error);
-  } finally {
-    loading.value = false;
-  }
-});
-</script>
-
 <template>
   <v-container class="fill-height">
     <v-row align="center" justify="center">
@@ -104,6 +57,53 @@ const onSubmit = handleSubmit(async (values) => {
     </v-row>
   </v-container>
 </template>
+
+<script lang="ts" setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/authStore";
+import type { Credentials } from "@/types/Credentials";
+import { useForm } from "vee-validate";
+import * as yup from "yup";
+
+const router = useRouter();
+const authStore = useAuthStore();
+const loading = ref(false);
+const showPassword = ref(false);
+
+const schema = yup.object({
+  email: yup.string().email().required().label("Email"),
+  password: yup.string().min(6).required().label("Password"),
+});
+
+const { defineField, handleSubmit } = useForm({
+  validationSchema: schema,
+});
+
+const vuetifyConfig = (state: { errors: any }) => ({
+  props: {
+    "error-messages": state.errors,
+  },
+});
+
+const [email, emailProps] = defineField("email", vuetifyConfig);
+const [password, passwordProps] = defineField("password", vuetifyConfig);
+
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    loading.value = true;
+    await authStore.login({
+      email: values.email,
+      password: values.password,
+    });
+    router.push("/");
+  } catch (error) {
+    console.error("Login error:", error);
+  } finally {
+    loading.value = false;
+  }
+});
+</script>
 
 <style scoped>
 .v-card {

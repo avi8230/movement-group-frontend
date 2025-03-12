@@ -1,3 +1,23 @@
+<template>
+  <div
+    v-if="loading"
+    class="d-flex justify-center align-center"
+    style="height: 400px"
+  >
+    <v-progress-circular indeterminate color="primary" />
+  </div>
+  <UserForm
+    v-else-if="user"
+    :initial-values="user"
+    :is-update="true"
+    @submit="handleSubmit"
+  />
+  <div v-else class="text-center pa-4">
+    <p class="text-h6">User not found</p>
+    <v-btn color="primary" to="/" class="mt-4">Go Back Home</v-btn>
+  </div>
+</template> 
+
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -62,23 +82,3 @@ const handleSubmit = async (values: User) => {
   }
 };
 </script>
-
-<template>
-  <div
-    v-if="loading"
-    class="d-flex justify-center align-center"
-    style="height: 400px"
-  >
-    <v-progress-circular indeterminate color="primary" />
-  </div>
-  <UserForm
-    v-else-if="user"
-    :initial-values="user"
-    :is-update="true"
-    @submit="handleSubmit"
-  />
-  <div v-else class="text-center pa-4">
-    <p class="text-h6">User not found</p>
-    <v-btn color="primary" to="/" class="mt-4">Go Back Home</v-btn>
-  </div>
-</template> 

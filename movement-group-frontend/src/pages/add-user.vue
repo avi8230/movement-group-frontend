@@ -1,3 +1,7 @@
+<template>
+  <UserForm @submit="handleSubmit" />
+</template>
+
 <script setup lang="ts">
 import { useUserStore } from "../stores/userStore";
 import { useSnackbarStore } from "../stores/snackbar";
@@ -30,10 +34,6 @@ const handleSubmit = async (values: User) => {
   }
 };
 </script>
-
-<template>
-  <UserForm @submit="handleSubmit" />
-</template>
 
 <style scoped>
 /* Add any custom styles here */

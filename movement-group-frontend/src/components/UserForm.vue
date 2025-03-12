@@ -1,56 +1,3 @@
-<script setup lang="ts">
-import { useForm } from "vee-validate";
-import * as yup from "yup";
-
-interface Props {
-  initialValues?: {
-    first_name?: string;
-    last_name?: string;
-    email?: string;
-    avatar?: string;
-  };
-  isUpdate?: boolean;
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  initialValues: () => ({}),
-  isUpdate: false,
-});
-
-// define emit
-const emit = defineEmits(["submit"]);
-
-const schema = yup.object({
-  first_name: yup.string().required().label("First Name"),
-  last_name: yup.string().required().label("Last Name"),
-  email: yup.string().email().required().label("E-mail"),
-  avatar: yup.string().url().required().label("Avatar URL"),
-});
-
-const { defineField, handleSubmit, resetForm } = useForm({
-  validationSchema: schema,
-  initialValues: props.initialValues,
-});
-
-const vuetifyConfig = (state: { errors: any }) => ({
-  props: {
-    "error-messages": state.errors,
-  },
-});
-
-const [first_name, firstNameProps] = defineField("first_name", vuetifyConfig);
-const [last_name, lastNameProps] = defineField("last_name", vuetifyConfig);
-const [email, emailProps] = defineField("email", vuetifyConfig);
-const [avatar, avatarProps] = defineField("avatar", vuetifyConfig);
-
-const onSubmit = handleSubmit((values) => {
-  emit("submit", values);
-  if (!props.isUpdate) {
-    resetForm();
-  }
-});
-</script>
-
 <template>
   <v-container class="fill-height">
     <v-row justify="center" align="center">
@@ -138,6 +85,59 @@ const onSubmit = handleSubmit((values) => {
     </v-row>
   </v-container>
 </template>
+
+<script setup lang="ts">
+import { useForm } from "vee-validate";
+import * as yup from "yup";
+
+interface Props {
+  initialValues?: {
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    avatar?: string;
+  };
+  isUpdate?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  initialValues: () => ({}),
+  isUpdate: false,
+});
+
+// define emit
+const emit = defineEmits(["submit"]);
+
+const schema = yup.object({
+  first_name: yup.string().required().label("First Name"),
+  last_name: yup.string().required().label("Last Name"),
+  email: yup.string().email().required().label("E-mail"),
+  avatar: yup.string().url().required().label("Avatar URL"),
+});
+
+const { defineField, handleSubmit, resetForm } = useForm({
+  validationSchema: schema,
+  initialValues: props.initialValues,
+});
+
+const vuetifyConfig = (state: { errors: any }) => ({
+  props: {
+    "error-messages": state.errors,
+  },
+});
+
+const [first_name, firstNameProps] = defineField("first_name", vuetifyConfig);
+const [last_name, lastNameProps] = defineField("last_name", vuetifyConfig);
+const [email, emailProps] = defineField("email", vuetifyConfig);
+const [avatar, avatarProps] = defineField("avatar", vuetifyConfig);
+
+const onSubmit = handleSubmit((values) => {
+  emit("submit", values);
+  if (!props.isUpdate) {
+    resetForm();
+  }
+});
+</script>
 
 <style scoped>
 .v-card {
